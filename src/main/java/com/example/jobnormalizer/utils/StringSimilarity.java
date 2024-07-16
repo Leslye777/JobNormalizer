@@ -5,9 +5,10 @@ import java.util.Set;
 
 public class StringSimilarity {
 
-    public static double calculateSimilarity(String s1, String s2) {
-        Set<Character> set1 = stringToSet(s1);
-        Set<Character> set2 = stringToSet(s2);
+    public static double calculateSimilarity(String jobTitle1, String jobTitle2) {
+
+        Set<Character> set1 = stringToSet(jobTitle1);
+        Set<Character> set2 = stringToSet(jobTitle2);
 
         Set<Character> intersection = new HashSet<>(set1);
         intersection.retainAll(set2);
@@ -18,9 +19,9 @@ public class StringSimilarity {
         return (double) intersection.size() / union.size();
     }
 
-    private static Set<Character> stringToSet(String s) {
+    private static Set<Character> stringToSet(String jobTitle) {
         Set<Character> set = new HashSet<>();
-        for (char c : s.toCharArray()) {
+        for (char c : jobTitle.toCharArray()) {
             set.add(c);
         }
         return set;

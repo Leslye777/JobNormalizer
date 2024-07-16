@@ -3,6 +3,7 @@ package com.example.jobnormalizer.controller;
 import com.example.jobnormalizer.model.JobTitle;
 import com.example.jobnormalizer.service.JobTitleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,7 +14,7 @@ public class JobTitleController {
     private JobTitleService jobTitleService;
 
     @PostMapping("/normalize")
-    public String normalizeTitle(@RequestBody JobTitle title) {
-        return jobTitleService.normalizeTitle(title.getTitle());
+    public ResponseEntity<String> normalizeTitle(@RequestBody JobTitle title) {
+        return ResponseEntity.ok(jobTitleService.normalizeTitle(title.getTitle()));
     }
 }
