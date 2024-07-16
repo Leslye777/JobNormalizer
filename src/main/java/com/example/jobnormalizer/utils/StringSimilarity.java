@@ -1,29 +1,28 @@
 package com.example.jobnormalizer.utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class StringSimilarity {
 
     public static double calculateSimilarity(String s1, String s2) {
-        int distance = levenshteinDistance(s1, s2);
-        int maxLength = Math.max(s1.length(), s2.length());
-        return 1.0 - (double) distance / maxLength;
+        Set<Character> set1 = stringToSet(s1);
+        Set<Character> set2 = stringToSet(s2);
+
+        Set<Character> intersection = new HashSet<>(set1);
+        intersection.retainAll(set2);
+
+        Set<Character> union = new HashSet<>(set1);
+        union.addAll(set2);
+
+        return (double) intersection.size() / union.size();
     }
 
-    private static int levenshteinDistance(String s1, String s2) {
-        int[][] dp = new int[s1.length() + 1][s2.length() + 1];
-
-        for (int i = 0; i <= s1.length(); i++) {
-            for (int j = 0; j <= s2.length(); j++) {
-                if (i == 0) {
-                    dp[i][j] = j;
-                } else if (j == 0) {
-                    dp[i][j] = i;
-                } else {
-                    int cost = (s1.charAt(i - 1) == s2.charAt(j - 1)) ? 0 : 1;
-                    dp[i][j] = Math.min(Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1), dp[i - 1][j - 1] + cost);
-                }
-            }
+    private static Set<Character> stringToSet(String s) {
+        Set<Character> set = new HashSet<>();
+        for (char c : s.toCharArray()) {
+            set.add(c);
         }
-
-        return dp[s1.length()][s2.length()];
+        return set;
     }
 }
