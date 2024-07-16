@@ -1,5 +1,6 @@
 package com.example.jobnormalizer.service;
 
+import com.example.jobnormalizer.exception.InvalidJobTitleException;
 import com.example.jobnormalizer.utils.StringSimilarity;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class JobTitleService {
     }
 
     public String normalizeTitle(String inputTitle) {
+
+        if (inputTitle == null || inputTitle.trim().isEmpty()) {
+            throw new InvalidJobTitleException("The job title must not be null or empty");
+        }
+
         String bestMatch = null;
         double highestScore = 0.0;
 
@@ -28,6 +34,10 @@ public class JobTitleService {
                 highestScore = score;
                 bestMatch = entry.getValue();
             }
+        }
+
+        if (bestMatch == null) {
+            throw new InvalidJobTitleException("No suitable job title match found");
         }
 
         return bestMatch;
